@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 
+from django.conf.global_settings import LOGOUT_REDIRECT_URL
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'todo',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -117,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# login / logout
+LOGIN_REDIRECT_URL = '/todo/' # 로그인 후 To Do List 페이지로 이동
+LOGOUT_REDIRECT_URL = '/accounts/login/' # 로그아웃 시 로그인 페이지로 이동하기 위함
