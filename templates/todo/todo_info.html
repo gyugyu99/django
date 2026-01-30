@@ -1,11 +1,9 @@
-# todo > templates > todo_info.html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Info</title>
+    <title>Todo Info</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,29 +20,65 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         h1 {
-            text-align: center;
             color: #333;
+            margin: 0;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
         th, td {
-            padding: 10px;
+            padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
         th {
-            background: #f0f0f0;
+            background: #f8f9fa;
+            width: 30%;
+        }
+        /* 버튼 공통 스타일 */
+        .button-group {
+            padding: 8px 12px;
+            margin-left: 5px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        /* 수정 버튼: 파란색 계열 */
+        .button-group:first-child {
+            background-color: #007bff;
+            color: white;
+        }
+        /* 삭제 버튼: 빨간색 계열 */
+        #delete-button {
+            background-color: #dc3545;
+            color: white;
+        }
+        .button-group:hover {
+            opacity: 0.9;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>{{ data.title }}</h1>
+        <!-- 수정된 제목 및 버튼 영역 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1>{{ data.title }}</h1>
+            <div style="display: flex; align-items: center;">
+                <button class="button-group" onclick="location.href='{% url 'cbv_todo_update' data.id %}'">수정하기</button>
+                <form method="POST" action="{% url 'cbv_todo_delete' data.id %}" style="margin: 0;" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                    {% csrf_token %}
+                    <button id="delete-button" type="submit" class="button-group">삭제하기</button>
+                </form>
+            </div>
+        </div>
+
         <table>
             {% for key, value in data.items %}
-                {% if key != 'title' %}
+                {% if key != 'title' and key != 'id' %}
                     <tr>
                         <th>{{ key }}</th>
                         <td>{{ value }}</td>
@@ -52,6 +86,11 @@
                 {% endif %}
             {% endfor %}
         </table>
+
+        <!-- 목록으로 돌아가기 버튼 (선택 사항) -->
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{% url 'todo_list' %}" style="color: #666; text-decoration: none; font-size: 14px;">← 목록으로 돌아가기</a>
+        </div>
     </div>
 </body>
 </html>

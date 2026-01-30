@@ -122,5 +122,5 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # login / logout
-LOGIN_REDIRECT_URL = '/todo/' # 로그인 후 To Do List 페이지로 이동
+LOGIN_REDIRECT_URL = '/cbv/todo/' # 로그인 후 To Do List 페이지로 이동
 LOGOUT_REDIRECT_URL = '/accounts/login/' # 로그아웃 시 로그인 페이지로 이동하기 위함
