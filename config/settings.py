@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'todo',
     'users',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -119,7 +120,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+
 STATIC_URL = 'static/'
+STATIC_DIRS = BASE_DIR / 'static'
+STATICFILES_DIRS = [
+    STATIC_DIRS,
+]
+STATIC_ROOT = BASE_DIR / '.static_root'
+
 
 # login / logout
 LOGIN_REDIRECT_URL = '/cbv/todo/' # 로그인 후 To Do List 페이지로 이동
