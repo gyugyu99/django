@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.paginator import Paginator
-from todo.forms import CommentForm
+from todo.forms import CommentForm, TodoForm, TodoUpdateForm
 from todo.models import Todo, Comment
 
 
@@ -67,7 +67,9 @@ class TodoDetailView(LoginRequiredMixin, DetailView):
 class TodoCreateView(LoginRequiredMixin, CreateView):
     # 새로운 데이터 생성 (CreateView상속)
     model = Todo
-    fields = ['title', 'description', 'start_date', 'end_date']
+    #fields = ['title', 'description', 'start_date', 'end_date']
+    #fileds 대신에 TodoForm사용
+    form_class = TodoForm
     template_name = 'todo/todo_create.html'
 
     def form_valid(self, form):
@@ -89,7 +91,9 @@ class TodoCreateView(LoginRequiredMixin, CreateView):
 
 class TodoUpdateView(LoginRequiredMixin, UpdateView):
     model = Todo
-    fields = ['title', 'description', 'start_date', 'end_date', 'is_completed', 'id']
+    # fields = ['title', 'description', 'start_date', 'end_date', 'is_completed', 'id']
+    # fields 대신 TodoUpdateForm사용
+    form_class = TodoUpdateForm
     template_name = 'todo/todo_update.html'
 
     def get_object(self, queryset=None):

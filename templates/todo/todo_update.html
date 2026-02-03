@@ -1,84 +1,66 @@
 {% extends 'todo/base.html' %}
 {% block content %}
 <style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 20px;
-}
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-h1 {
-    text-align: center;
-    color: #333;
-}
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-li {
-    padding: 10px;
-    margin: 5px 0;
-    background: #eaeaea;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-li:hover {
-    background: #d4d4d4;
-}
-a {
-    text-decoration: none;
-    color: #333;
-}
-/* 폼 스타일 */
-.todo-update-form {
-    display: flex;
-    flex-direction: column;
-}
-
-.todo-update-form p {
-    margin: 10px 0;
-}
-
-/* 입력 필드 스타일 */
-input[type="text"], input[type="date"], textarea {
-    width: 93%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    margin-bottom: 15px;
-}
-
-/* 버튼 스타일 */
-.update-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    width: 100%;
-    font-size: 16px;
-}
-
-.update-button:hover {
-    background-color: #0056b3;
-}
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+    /* 강사님 코드의 너비(40vw)와 기존 코드의 컨테이너 스타일 결합 */
+    .update-container {
+        max-width: 40vw;
+        margin: 50px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .title {
+        text-align: center;
+        color: #333;
+        margin-bottom: 25px;
+        font-weight: bold;
+    }
+    /* 기존 코드의 입력 필드 스타일 유지 */
+    input[type="text"],
+    input[type="date"],
+    textarea,
+    input[type="file"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        box-sizing: border-box; /* 패딩이 너비를 넘지 않도록 설정 */
+    }
+    /* 폼 안의 문단(p) 간격 조정 */
+    form p {
+        margin-bottom: 15px;
+    }
 </style>
-<div class="container" style="margin-top: 15px">
+
+<div class="update-container">
     {% if request.user.is_authenticated %}
-        <form class="todo-update-form" method="POST">
+        <form class="form-control border-0" method="POST" enctype="multipart/form-data">
+            <h2 class="title">Todo 수정하기</h2>
             {% csrf_token %}
+
+            {# 장고 폼 렌더링 #}
             {{ form.as_p }}
-            <button class="update-button">Update</button>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary w-100 py-2">Update</button>
+                <a href="{% url 'cbv_todo_list' %}" class="btn btn-link w-100 mt-2 text-secondary text-decoration-none">취소하고 돌아가기</a>
+            </div>
         </form>
+    {% else %}
+        <div class="text-center py-5">
+            <h2>권한이 없습니다.</h2>
+            <p>로그인 후 이용해주세요.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary">로그인 페이지로</a>
+        </div>
     {% endif %}
 </div>
 {% endblock %}

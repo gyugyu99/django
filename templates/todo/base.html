@@ -1,30 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo List</title>
-    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet"> # 추가
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 </head>
 <body>
-    <nav style="display: flex; justify-content: space-between">
+    <nav style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background-color: #fff; border-bottom: 1px solid #ddd;">
         <div>
-            <a style="font-size: 20px" href={% url 'cbv_todo_list' %}>Home</a>
+            <a style="font-size: 20px; font-weight: bold; text-decoration: none; color: #333;" href="{% url 'cbv_todo_list' %}">Home</a>
         </div>
         {% if request.user.is_authenticated %}
-            <div style="text-align: right; font-size: 20px; display: flex; justify-content: space-between">
-                {{ request.user.username }}
-                <form action="{% url 'logout' %}" method="POST">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <span style="font-size: 18px;">{{ request.user.username }}</span>
+                <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
                     {% csrf_token %}
-                    <button style="border: 0; font-size: 20px; cursor: pointer">Logout</button>
+                    <button type="submit" style="background: none; border: 0; font-size: 18px; cursor: pointer; color: #333;">Logout</button>
                 </form>
             </div>
         {% else %}
-            <div style="display: flex; justify-content: right; font-size: 20px;">
-                <a href="{% url 'signup' %}" style="margin-right: 10px">SignUp</a>
-                <a href="{% url 'login' %}">Login</a>
+            <div style="display: flex; gap: 15px; font-size: 20px;">
+                <a href="{% url 'signup' %}" style="text-decoration: none; color: #333;">SignUp</a>
+                <a href="{% url 'login' %}" style="text-decoration: none; color: #333;">Login</a>
             </div>
         {% endif %}
     </nav>
+
     {% block content %}{% endblock %}
 </body>
 </html>
